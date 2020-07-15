@@ -1,13 +1,15 @@
-package cards
+package game
 
 import (
+	"image/color"
 	"math/rand"
 	"strconv"
 	"strings"
 )
 
 const (
-	Two = iota
+	Ace= iota
+	Two
 	Three
 	Four
 	Five
@@ -17,42 +19,44 @@ const (
 	Nine
 	Ten
 	Jack
-	Dame
+	Queen
 	King
-	Ace
+
 )
 
 func allValues() []int {
 	result := []int{}
-	for i := Two; i <= Ace; i++ {
+	for i := Ace; i <= King; i++ {
 		result = append(result, i)
 	}
 	return result
 }
 
 const (
-	Spades = iota
-	Hearts
-	Diamonds
+	Hearts = iota
 	Clubs
+	Diamonds
+	Spades
+
 )
 
 func allKinds() []int {
 	result := []int{}
-	for i := Spades; i <= Clubs; i++ {
+	for i := Hearts; i <= Spades; i++ {
 		result = append(result, i)
 	}
 	return result
 }
 
+
 type Card struct {
-	value int
-	kind  int
+	Value int
+	Kind  int
 }
 
 func (c Card) DispayName() string {
 	var value string
-	switch c.value {
+	switch c.Value {
 	case Two:
 		value = "Two"
 	case Three:
@@ -73,8 +77,8 @@ func (c Card) DispayName() string {
 		value = "Ten"
 	case Jack:
 		value = "Jack"
-	case Dame:
-		value = "Dame"
+	case Queen:
+		value = "Queen"
 	case King:
 		value = "King"
 	case Ace:
@@ -82,7 +86,7 @@ func (c Card) DispayName() string {
 	}
 
 	var kind string
-	switch c.kind {
+	switch c.Kind {
 	case Hearts:
 		kind = "Hearts"
 	case Diamonds:
@@ -97,7 +101,29 @@ func (c Card) DispayName() string {
 	return result
 }
 
-func randCard() Card {
+func (c Card) Unicode() string {
+	offset := c.Kind* 13 + c.Value
+	if offset > 25 {
+		offset += 6
+	}
+	return string(65 + offset)
+}
+
+func (c Card) CardBack() string {
+	return CardBack()
+}
+
+func NewCard(value int, kind int) Card {
+	return Card {
+		value, kind,
+	}
+}
+
+func CardBack() string {
+	return "0"
+}
+
+func RandCard() Card {
 	var value int = rand.Intn(Ace)
 	var kind int = rand.Intn(4)
 	var card Card = Card{
@@ -121,12 +147,24 @@ func cardFromString(s string) (Card, error) {
 		return Card{}, err
 	}
 	var card Card = Card{
-		value: int(value),
-		kind:  int(kind),
+		Value: int(value),
+		Kind:  int(kind),
 	}
 	return card, nil
 }
 
-func (c Card) equals(card Card) bool {
-	return c.value == card.value && c.kind == card.kind;
+func (c Card) Equals(card Card) bool {
+	return c.Value == card.Value && c.Kind == card.Kind;
+}
+
+func (c Card) Color() color.Color {
+	if c.Kind == Diamonds || c.Kind == Hearts {
+		return color.RGBA{200,50,50, 255}
+	} else {
+		return color.RGBA{0,0,0,255}
+	}
+}
+
+func (c Card ) BackColor() color.Color {
+	return color.RGBA{0,0,0,255}
 }

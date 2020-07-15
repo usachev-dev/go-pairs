@@ -1,4 +1,4 @@
-package cards
+package game
 
 import "testing"
 
@@ -19,10 +19,10 @@ func TestAllCardsHaveDisplayName(t *testing.T) {
 	for _, card := range deck {
 		dispayName := card.DispayName()
 		if len(dispayName) == 0 {
-			t.Errorf("All cards should be able to display their names")
+			t.Errorf("All game should be able to display their names")
 		}
 		if len(dispayName) <= 3 {
-			t.Errorf("All cards should display names should have 3 or move characters, was %v", dispayName)
+			t.Errorf("All game should display names should have 3 or move characters, was %v", dispayName)
 		}
 	}
 }
@@ -32,7 +32,7 @@ func TestRandCardReturnsDifferentCards(t *testing.T) {
 		card := randCard();
 		hasSame := false
 		for _, c := range cards {
-			if c.equals(card) {
+			if c.Equals(card) {
 				hasSame = true
 			}
 		}
@@ -44,7 +44,7 @@ func TestRandCardReturnsDifferentCards(t *testing.T) {
 		}
 	}
 	if len(cards) < 30 {
-		t.Errorf("Random card should return different cards, got %v different", len(cards))
+		t.Errorf("Random card should return different game, got %v different", len(cards))
 	}
 }
 func TestCardFromString(t *testing.T) {

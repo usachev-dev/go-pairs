@@ -1,4 +1,4 @@
-package cards
+package game
 
 import (
 	"os"
@@ -25,7 +25,7 @@ func TestShuffledDeckIsDifferentButSameLength(t *testing.T) {
 		t.Errorf("Deck and shuffled deck should have same size, got %v and %v", len(deck), len(shuffledDeck))
 	}
 	for i := range shuffledDeck {
-		if deck[i].equals(shuffledDeck[i]) {
+		if deck[i].Equals(shuffledDeck[i]) {
 			isSame = false;
 			break
 		}
@@ -41,7 +41,7 @@ func TestDrawCardsHasCorrectLen(t *testing.T) {
 		t.Errorf("Expected draw 5 to draw 5, got %v", len(hand))
 	}
 	if (len(hand) + len(remaining) != len(deck)) {
-		t.Errorf("Expected draw + remaining cards cound to be the same as deck %v, got %v", len(deck), len(hand) + len(remaining))
+		t.Errorf("Expected draw + remaining game cound to be the same as deck %v, got %v", len(deck), len(hand) + len(remaining))
 	}
 }
 func TestCanSaveAndLoadDeckToFile(t *testing.T) {

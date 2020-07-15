@@ -1,4 +1,4 @@
-package cards
+package game
 
 import (
 	"fmt"
@@ -22,7 +22,18 @@ func NewDeck() Deck {
 func NewDeck36() Deck {
 	deck := []Card{}
 	for _, kind := range allKinds() {
-		for _, value := range allValues()[4:] {
+		for _, value := range append(allValues()[5:], allValues()[0]) {
+			deck = append(deck, Card{value, kind})
+		}
+	}
+	return deck
+}
+
+func NewDeckPairs() Deck {
+	deck := []Card{}
+	for _, kind := range allKinds()[0:2] {
+		for _, value := range append(allValues()[5:], allValues()[0]) {
+			deck = append(deck, Card{value, kind})
 			deck = append(deck, Card{value, kind})
 		}
 	}
@@ -31,9 +42,14 @@ func NewDeck36() Deck {
 
 func (d Deck) Shuffle() Deck {
 	var newDeck Deck = []Card{}
+	indexes := []int{}
+	for i:=  range d {
+		indexes = append(indexes, i)
+	}
 	for range d {
-		index := rand.Intn(len(d))
-		newDeck = append(newDeck, d[index])
+		index := rand.Intn(len(indexes))
+		newDeck = append(newDeck, d[indexes[index]])
+		indexes = append(indexes[0:index], indexes[index+1:]...)
 	}
 	return newDeck
 }
@@ -45,7 +61,7 @@ func (d Deck) Print() {
 }
 
 func (d Deck) DrawCards(n int) (Deck, Deck) {
-	// 1st are drawed cards
+	// 1st are drawed game
 	// 2nd are remaining
 	return d[:n], d[n:]
 }
@@ -53,7 +69,7 @@ func (d Deck) DrawCards(n int) (Deck, Deck) {
 func (d Deck) ToString() string {
 	result := ""
 	for _, card := range d {
-		result = result + fmt.Sprintf("%d %d,", card.value, card.kind)
+		result = result + fmt.Sprintf("%d %d,", card.Value, card.Kind)
 	}
 	return result
 }
@@ -94,5 +110,17 @@ func (d Deck) WriteToFile(filename string) error {
 func (d Deck) PrintDisplay() {
 	for _, card := range d {
 		fmt.Println(card.DispayName())
+	}
+}
+
+func (d Deck) PrintUnicodes() {
+	for _, card := range d {
+		fmt.Println(card.Unicode())
+	}
+}
+
+func (d Deck) PrintCode() {
+	for _, card := range d {
+		fmt.Println(card.Kind, card.Value, int(card.Unicode()[0]))
 	}
 }
