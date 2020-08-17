@@ -12,8 +12,8 @@ import (
 
 func main() {
 	rand.Seed(time.Now().Unix())
-	textFont := getFont("/ArialMT.ttf", game.ScoreFontSize)
-	cardFont := getFont("/font.ttf", game.ScoreFontSize*3)
+	textFont := getFont("assets/ArialMT.ttf", game.ScoreFontSize)
+	cardFont := getFont("assets/font.ttf", game.ScoreFontSize*3)
 	g := game.NewGame(textFont, cardFont)
 	g.StartGame()
 }
