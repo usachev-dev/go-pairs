@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow: hidden;">
+<head>
+    <meta charset="UTF-8">
+    <title>Pairs</title>
+</head>
+<body>
+<main>
+    <p>Loading..</p>
+</main>
+
+<script src="wasm_exec.js"></script>
+<script>
+  (function () {
+    const go = new Go();
+    // WebAssembly.instantiateStreaming is more efficient
+    // but doesn't work on Safari
+    fetch('main.wasm')
+      .then(response => response.arrayBuffer())
+      .then(bytes => WebAssembly.instantiate(bytes, go.importObject))
+      .then(result => {
+        document
+          .querySelector('main')
+          .remove();
+        go.run(result.instance);
+      });
+  })();
+</script>
+</body>
+</html>

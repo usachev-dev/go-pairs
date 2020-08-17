@@ -167,14 +167,14 @@ func clickCardIndex(x int, y int, screenWidth int, screenHeight int) (int, error
 }
 
 func drawCard(card Card, screen *ebiten.Image, index int, font font.Face) {
-	screenWidth, screenHeight := screen.Size()
+	//screenWidth, screenHeight := screen.Size()
 	x := cardX(screenWidth, index)
 	y := cardY(screenHeight, index)
 	text.Draw(screen, card.Unicode(), font, x, y, card.Color())
 }
 
 func drawCardBack(card Card, screen *ebiten.Image, index int, font font.Face) {
-	screenWidth, screenHeight := screen.Size()
+	//screenWidth, screenHeight := screen.Size()
 	x := cardX(screenWidth, index)
 	y := cardY(screenHeight, index)
 	text.Draw(screen, card.CardBack(), font, x, y, card.BackColor())
